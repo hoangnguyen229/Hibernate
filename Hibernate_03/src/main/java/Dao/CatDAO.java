@@ -2,7 +2,6 @@ package Dao;
 
 import Model.Cat;
 import Util.HibernateUtil;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -40,34 +39,24 @@ public class CatDAO implements DAOInterface<Cat> {
 
     @Override
     public Cat selectByID(Cat cat) {
-        List<Cat> list = new ArrayList<>();
-        try{
+        try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-            if(sessionFactory != null){
+            if(sessionFactory!=null) {
                 Session session = sessionFactory.openSession();
-                Transaction transaction = session.beginTransaction();
+                Transaction tr = session.beginTransaction();
 
-//                Thực thi câu lệnh HQL
-                String hql = "from Cat c where c.id=:id";
-                Query query = session.createQuery(hql);
-                query.setParameter("id", cat.getId());
-                list = query.getResultList();
+                Cat result = session.get(Cat.class, 1);
+                // find
+                // load
 
-                transaction.commit();
+                tr.commit();
                 session.close();
+                return  result;
             }
-            else {
-                return null;
-            }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(list.size()>0){
-            return list.get(0);
-        }
-        else {
-            return null;
-        }
+        return null;
     }
 
     @Override
@@ -81,7 +70,6 @@ public class CatDAO implements DAOInterface<Cat> {
 //                Thực thi câu lệnh HQL
 //                Chỉ lưu khi chưa tồn tại
 //                session.save(cat);
-//                session.persist(cat); cũng giống như save, nhưng save thì quăng ra lỗi còn persist thì không.
 //                Thêm mới khi chưa tồn tại, cập nhật dữ liệu khi đã tồn tại
                 session.saveOrUpdate(cat);
 
@@ -105,6 +93,7 @@ public class CatDAO implements DAOInterface<Cat> {
 //                Thực thi câu lệnh HQL
 //                Chỉ lưu khi chưa tồn tại
 //                session.save(cat);
+//                session.persist(cat); giống save nhưng sẽ không trả về ID, không quăng ra lỗi
 //                Thêm mới khi chưa tồn tại, cập nhật dữ liệu khi đã tồn tại
                 session.saveOrUpdate(cat);
 

@@ -29,7 +29,7 @@ public class TestCat {
 //        Test insert
         Cat c3 = new Cat("Meo Mum 1",  new Date(System.currentTimeMillis()),true);
         Cat c4 = new Cat("Meo Mum Mim",  new Date(System.currentTimeMillis()),false);
-        c3.setId(11);
+        c3.setId(10);
 //        cat_Dao.insert(c3);
 
 //        Test Delete
