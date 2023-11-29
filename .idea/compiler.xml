@@ -7,7 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Hibernate_01" />
+        <module name="Hibernate_02" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Hibernate_01 (1)" target="20" />
+      <module name="Hibernate_01 (2)" target="20" />
+    </bytecodeTargetLevel>
   </component>
 </project>
