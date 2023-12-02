@@ -20,7 +20,7 @@ public class TestCat {
 //            System.out.println(cat);
 //        }
 
-//        Test select by id
+//        Test select by id1
 //        Cat c = new Cat();
 //        c.setId(3);
 //        Cat c1 = cat_Dao.selectByID(c);
