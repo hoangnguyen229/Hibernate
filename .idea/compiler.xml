@@ -10,6 +10,7 @@
         <module name="Hibernate_02" />
         <module name="Hibernate_03" />
         <module name="Hibernate_04" />
+        <module name="Hibernate_05" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

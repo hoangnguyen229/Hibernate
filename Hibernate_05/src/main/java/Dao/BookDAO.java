@@ -1,6 +1,6 @@
 package Dao;
 
-import Model.Person;
+import Model.Book;
 import Util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,24 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class PersonDAO implements DAOInterface<Person> {
-
+public class BookDAO implements DAOInterface<Book> {
     @Override
-    public List<Person> selectAll() {
-        List<Person> list = new ArrayList<>();
-        try {
+    public List<Book> selectAll() {
+        List<Book> list = new ArrayList<>();
+        try{
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-            if (sessionFactory != null){
+            if(sessionFactory != null){
                 Session session = sessionFactory.openSession();
                 Transaction transaction = session.beginTransaction();
 
-                String hql = "FROM Person";
+                String hql = "From Book";
                 Query query = session.createQuery(hql);
                 list = query.getResultList();
 
                 transaction.commit();
                 session.close();
             }
+
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -36,14 +36,17 @@ public class PersonDAO implements DAOInterface<Person> {
     }
 
     @Override
-    public Person selectByID(Person person) {
+    public Book selectByID(Book book) {
         try{
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             if (sessionFactory != null){
                 Session session = sessionFactory.openSession();
                 Transaction transaction = session.beginTransaction();
 
-                Person result = session.get(Person.class,2);
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Input book ID: ");
+                String bookID = sc.nextLine();
+                Book result = session.get(Book.class,bookID);
 
                 transaction.commit();
                 session.close();
@@ -55,14 +58,27 @@ public class PersonDAO implements DAOInterface<Person> {
         return null;
     }
 
-    public boolean saveOrUpdate(Person person){
-        try {
+    @Override
+    public boolean insert(Book book) {
+        try{
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             if (sessionFactory != null){
                 Session session = sessionFactory.openSession();
                 Transaction transaction = session.beginTransaction();
 
-                session.saveOrUpdate(person);
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Input book id: ");
+                String bookID = sc.nextLine();
+                System.out.println("Input title book: ");
+                String bookTitle = sc.nextLine();
+                System.out.println("Input price: ");
+                Double bookPrice = sc.nextDouble();
+                Book book1 = new Book();
+                book1.setBook_id(bookID);
+                book1.setTitle(bookTitle);
+                book1.setPrice(bookPrice);
+
+                session.saveOrUpdate(book1);
 
                 transaction.commit();
                 session.close();
@@ -73,15 +89,28 @@ public class PersonDAO implements DAOInterface<Person> {
         }
         return false;
     }
+
     @Override
-    public boolean insert(Person person) {
+    public boolean update(Book book) {
         try{
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             if (sessionFactory != null){
                 Session session = sessionFactory.openSession();
                 Transaction transaction = session.beginTransaction();
 
-                session.saveOrUpdate(person);
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Input book ID to update: ");
+                String bookID = sc.nextLine();
+                Book bookResult = session.get(Book.class,bookID);
+                if(bookResult != null){
+                    System.out.print("Input price to update: ");
+                    double priceBookToUpdate = sc.nextDouble();
+                    bookResult.setPrice(priceBookToUpdate);
+                }else {
+                    System.out.println("Not found ID book");
+                }
+
+                session.saveOrUpdate(bookResult);
 
                 transaction.commit();
                 session.close();
@@ -93,20 +122,23 @@ public class PersonDAO implements DAOInterface<Person> {
     }
 
     @Override
-    public boolean update(Person person) {
-        return saveOrUpdate(person);
-    }
-
-    @Override
-    public boolean delete(Person person) {
+    public boolean delete(Book book) {
         try{
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             if (sessionFactory != null){
                 Session session = sessionFactory.openSession();
                 Transaction transaction = session.beginTransaction();
 
-                session.delete(person);
-
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Input book ID to delete: ");
+                String bookID = sc.nextLine();
+                Book bookResult = session.get(Book.class,bookID);
+                if(bookResult != null){
+                    session.delete(bookResult);
+                    System.out.println("IsDeleted!");
+                }else{
+                    System.out.println("Not found ID book");
+                }
                 transaction.commit();
                 session.close();
             }
