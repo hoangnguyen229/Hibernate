@@ -22,7 +22,6 @@ public class Cat {
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
     }
-
     @Id
     @GeneratedValue // auto number
     public Integer getId() {
